@@ -9,6 +9,8 @@ namespace CountryModel;
 [Table("City")]
 public partial class City
 {
+    public string Name;
+
     [Key]
     [Column("CityID")]
     public int CityId { get; set; }
@@ -22,7 +24,12 @@ public partial class City
     [Column("CountryID")]
     public int CountryId { get; set; }
 
+    [Column("Population")]
+    public int Population { get; set; }
+
     [ForeignKey("CountryId")]
     [InverseProperty("Cities")]
     public virtual Country Country { get; set; } = null!;
+    public decimal Lat { get; set; }
+    public decimal Lon { get; set; }
 }
