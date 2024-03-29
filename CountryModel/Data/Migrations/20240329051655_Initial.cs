@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace CountryModel.Migrations
+namespace CountryModel.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -32,7 +32,8 @@ namespace CountryModel.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Latitude = table.Column<decimal>(type: "numeric(18,4)", nullable: false),
                     Longitude = table.Column<decimal>(type: "numeric(18,4)", nullable: false),
-                    CountryID = table.Column<int>(type: "int", nullable: false)
+                    CountryID = table.Column<int>(type: "int", nullable: false),
+                    Population = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

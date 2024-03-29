@@ -30,6 +30,5 @@ public partial class City
     [ForeignKey("CountryId")]
     [InverseProperty("Cities")]
     public virtual Country Country { get; set; } = null!;
-    public decimal Lat { get; set; }
-    public decimal Lon { get; set; }
+
 }

@@ -3,16 +3,19 @@ using CountryModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CountryModel.Migrations
+namespace CountryModel.Data.Migrations
 {
     [DbContext(typeof(CountriesSourceContext))]
-    partial class CountriesSourceContextModelSnapshot : ModelSnapshot
+    [Migration("20240329051655_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +42,10 @@ namespace CountryModel.Migrations
 
                     b.Property<decimal>("Longitude")
                         .HasColumnType("numeric(18, 4)");
+
+                    b.Property<int>("Population")
+                        .HasColumnType("int")
+                        .HasColumnName("Population");
 
                     b.HasKey("CityId")
                         .HasName("PK__Table__F2D21A965FAEB50E");

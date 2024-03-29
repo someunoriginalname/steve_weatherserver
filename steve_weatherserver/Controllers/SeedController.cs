@@ -6,24 +6,23 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CountryModel;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
-using System.Globalization;
-using Sitecore.FakeDb;
-using Microsoft.Extensions.Hosting;
 using CsvHelper.Configuration;
+using System.Globalization;
+using CsvHelper;
 
 namespace steve_weatherserver.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SeedController : ControllerBase
+    public class SeedController(CountriesSourceContext db, IHostEnvironment environment) : ControllerBase
     {
         private readonly string _pathName = Path.Combine(environment.ContentRootPath, "Data/worldcities.csv");
+
         [HttpPost("City")]
         public async Task<ActionResult<City>> SeedCity()
         {
             Dictionary<string, Country> countries = await db.Countries//.AsNoTracking()
-            .ToDictionaryAsync(c => c.Name);
+             .ToDictionaryAsync(c => c.Name);
 
             CsvConfiguration config = new(CultureInfo.InvariantCulture)
             {
@@ -51,8 +50,8 @@ namespace steve_weatherserver.Controllers
                     City city = new()
                     {
                         Name = record.city,
-                        Lat = record.lat,
-                        Lon = record.lng,
+                        Latitude = record.lat,
+                        Longitude = record.lng,
                         Population = (int)record.population.Value,
                         CountryId = value.CountryId
                     };
@@ -63,12 +62,13 @@ namespace steve_weatherserver.Controllers
             }
             return new JsonResult(cityCount);
         }
+
         [HttpPost("Country")]
         public async Task<ActionResult<City>> SeedCountry()
         {
             // create a lookup dictionary containing all the countries already existing 
             // into the Database (it will be empty on first run).
-            Dictionary<string, Country> countriesByName = db.Countries 
+            Dictionary<string, Country> countriesByName = db.Countries
                 .AsNoTracking().ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase);
 
             CsvConfiguration config = new(CultureInfo.InvariantCulture)

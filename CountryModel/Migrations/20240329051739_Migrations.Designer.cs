@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CountryModel.Migrations
 {
     [DbContext(typeof(CountriesSourceContext))]
-    [Migration("20240302041353_Initial")]
-    partial class Initial
+    [Migration("20240329051739_Migrations")]
+    partial class Migrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,10 @@ namespace CountryModel.Migrations
 
                     b.Property<decimal>("Longitude")
                         .HasColumnType("numeric(18, 4)");
+
+                    b.Property<int>("Population")
+                        .HasColumnType("int")
+                        .HasColumnName("Population");
 
                     b.HasKey("CityId")
                         .HasName("PK__Table__F2D21A965FAEB50E");
