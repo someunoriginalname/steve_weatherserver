@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CountryModel;
 
 public partial class CountriesSourceContext : DbContext
-{
+{   
     public CountriesSourceContext()
     {
     }
@@ -21,7 +22,13 @@ public partial class CountriesSourceContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Data Source= (localdb)\\MSSQLLocalDB;Initial Catalog=CountriesGolden;Integrated Security=True; Connect Timeout=30; Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;MultiSubnetFailover=False;");
+        if (optionsBuilder.IsConfigured)
+        {
+            return;
+        }
+        IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+        var config = builder.Build();
+        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

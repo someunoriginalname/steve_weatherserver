@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CountryModel.Data.Migrations
 {
     [DbContext(typeof(CountriesSourceContext))]
-    [Migration("20240329051655_Initial")]
+    [Migration("20240330042125_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
